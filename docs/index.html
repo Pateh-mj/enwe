@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Premium interior & exterior painting and engineering services across Africa. Luxury finishes and weather-resistant coatings.">
+    
+    <title>Enwe Paint | Luxury Interior & Exterior Engineering</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        :root {
+            --enwe-red: #D62128;
+            --enwe-blue: #3B82F6;
+            --surface-light: #FFFFFF;
+        }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background-color: var(--surface-light);
+            color: #111111;
+        }
+
+        /* Subtle Architectural Texture - Light version */
+        .african-texture {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 0l20 20-20 20L0 20z' fill='%23000000' fill-opacity='0.015' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+
+        /* Lighter Hero Overlay - Keeps text readable while feeling bright */
+        .hero-overlay {
+    /* A very subtle dark tint to protect white text readability */
+    background: linear-gradient(
+        45deg,rgba(10, 10, 10, 0.8) 0%, rgba(214, 33, 40, 0.05) 100% /* Subtle hint of Enwe Red */
+    );
+    backdrop-filter: brightness(0.3) contrast(1.1);
+}
+        /* Light Glass Panel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05);
+        }
+
+        .input-field {
+            background: #FFFFFF;
+            border: 1px solid #E5E5E5;
+            transition: all 0.3s ease;
+            color: #111111;
+        }
+
+        .input-field:focus {
+            border-color: var(--enwe-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            outline: none;
+        }
+
+        /* Smooth UI transitions - Light version */
+        .service-card { 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+        .service-card:hover { 
+            transform: translateY(-8px); 
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(0, 0, 0, 0.12);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.1);
+        }
+
+        /* Light Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #F5F5F5; }
+        ::-webkit-scrollbar-thumb { background: var(--enwe-red); border-radius: 20px; }
+
+        /* Light portfolio card adjustment */
+        .portfolio-card {
+            background: #FFFFFF;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05);
+        }
+
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            font-size: 28px;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 30px rgba(37, 211, 102, 0.5);
+        }
+
+    </style>
+</head>
+
+<body class="antialiased overflow-x-hidden" x-data="navHandler">
+
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 py-4 flex justify-between items-center transition-all duration-500 border-b border-transparent"
+         :class="scrolled ? 'bg-black backdrop-blur-md border-b border-gray-200 py-3 shadow-sm' : 'bg-transparent'">
+
+        <div class="flex items-center py-1.5 pl-1.5 pr-5">
+            <div class="p-1 rounded-xl">
+                <img src="img/logo_EP.png" alt="Enwe Paint" class="h-9 w-9 object-contain rounded-lg">
+            </div>
+
+        </div>
+
+        <div class="hidden lg:flex items-center space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-100">
+            <a href="#about" class="hover:text-[#D62128] transition-colors">About</a>
+            <a href="#services" class="hover:text-[#3B82F6] transition-colors">Services</a>
+            <a href="#portfolio" class="hover:text-[#3B82F6] transition-colors">Portfolio</a>
+            <a href="#quote" class="hover:text-[#D62128] transition-colors">Consultation</a>
+        </div>
+
+        <!-- IMPROVED CALL TO ACTION BUTTON -->
+        <div class="hidden lg:block">
+            <a href="#quote" 
+               class="bg-[#D62128] text-white px-8 py-3.5 rounded-2xl font-bold text-sm tracking-widest uppercase hover:bg-black transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2">
+                <span>GET A FREE QUOTE</span>
+                <span class="text-lg leading-none">→</span>
+            </a>
+        </div>
+
+        <div class="lg:hidden flex items-center">
+            <button @click="toggleMenu()" class="focus:outline-none z-[110] p-2">
+                <div class="w-7 flex flex-col items-end space-y-1.5">
+                    <span :class="mobileMenuOpen ? 'rotate-45 translate-y-2' : ''" class="block h-0.5 w-7 bg-[#fff] transition-all duration-300"></span>
+                    <span :class="mobileMenuOpen ? 'opacity-0' : ''" class="block h-0.5 w-4 bg-[#D62128] transition-all duration-300"></span>
+                    <span :class="mobileMenuOpen ? '-rotate-45 -translate-y-2 w-7' : ''" class="block h-0.5 w-6 bg-[#fff] transition-all duration-300"></span>
+                </div>
+            </button>
+        </div>
+    </nav>
+
+    <div x-cloak x-show="mobileMenuOpen" class="fixed inset-0 z-[90] lg:hidden">
+        <div class="absolute inset-0 bg-black/30 backdrop-blur-xl" @click="closeMenu()"></div>
+        <div x-show="mobileMenuOpen" x-transition:enter="transition transform duration-500 ease-out" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0" class="absolute right-0 top-0 h-full w-[85%] bg-white p-12 flex flex-col shadow-2xl">
+            <div class="flex flex-col space-y-8 text-2xl font-light mt-16 tracking-tighter text-gray-900">
+                <a href="#about" @click="closeMenu()" class="border-b border-gray-100 pb-4">About</a>
+                <a href="#services" @click="closeMenu()" class="border-b border-gray-100 pb-4">Services</a>
+                <a href="#portfolio" @click="closeMenu()" class="border-b border-gray-100 pb-4">Portfolio</a>
+                <a href="#quote" @click="closeMenu()" class="border-b border-gray-100 pb-4">Get a Quote</a>
+            </div>
+            <div class="mt-auto">
+                <a href="#quote" @click="closeMenu()" class="block w-full text-center bg-[#D62128] py-5 rounded-2xl font-bold uppercase text-xs tracking-[0.2em] text-white">Start Project</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="relative min-h-screen flex items-center pt-20" x-data="heroHandler">
+        <div class="absolute inset-0 z-0">
+            <img src="img/roller.jpg" alt="Enwe Luxury Finish" class="w-full h-full object-cover">
+            <div class="absolute inset-0 hero-overlay"></div>
+            <div class="absolute inset-0 african-texture opacity-30"></div>
+        </div>
+
+        <div class="container mx-auto px-6 relative z-10 grid lg:grid-cols-12 gap-10">
+            <div class="lg:col-span-7" x-show="loaded" x-transition:enter="transition duration-1000 ease-out" x-transition:enter-start="opacity-0 translate-y-10" x-transition:enter-end="opacity-100 translate-y-0">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="h-px w-10 bg-[#3B82F6]"></div>
+                    <span class="text-[#3B82F6] text-[12px] font-bold tracking-[0.4em] uppercase">Enwe Construction Company</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-8xl font-extrabold leading-[0.9] tracking-tighter mb-8 text-white">
+                    LUXURY<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#3B82F6] via-[#ffffff] to-[#D62128]">SPACES.</span>
+                </h1>
+                
+                <p class="text-lg text-gray-200 max-w-lg mb-10 leading-relaxed font-light">
+                    Precision engineering and artisanal painting that redefine high-end residential and commercial aesthetics across the continent.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="#portfolio" class="bg-white text-black px-10 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:bg-[#3B82F6] hover:text-white transition-all shadow-2xl border border-gray-200">
+                        View Projects
+                    </a>
+                    <a href="#services" class="glass-panel px-10 py-4 rounded-xl font-bold text-[11px] uppercase tracking-widest hover:border-[#D62128] transition-all text-gray-900">
+                        Our Services
+                    </a>
+                </div>
+            </div>
+
+            <div class="hidden lg:flex lg:col-span-5 flex-col justify-center space-y-6 items-end">
+                <div class="glass-panel p-8 rounded-2xl w-80 service-card border-l-4 border-l-[#3B82F6]">
+                    <span class="text-[9px] font-bold tracking-widest text-[#3B82F6] uppercase">Consultation</span>
+                    <h3 class="text-xl font-bold mt-1 text-gray-900">Artisanal Finish</h3>
+                    <p class="text-gray-600 text-xs mt-2 leading-relaxed">Hand-applied textures and bespoke color palettes.</p>
+                </div>
+                <div class="glass-panel p-8 rounded-2xl w-80 service-card border-l-4 border-l-[#D62128] mr-8">
+                    <span class="text-[9px] font-bold tracking-widest text-[#D62128] uppercase">Durability</span>
+                    <h3 class="text-xl font-bold mt-1 text-gray-900">WeatherGuard</h3>
+                    <p class="text-gray-600 text-xs mt-2 leading-relaxed">Engineered coatings for extreme African climates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-32 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
+                
+                <div>
+                    <span class="text-[#D62128] text-xs font-bold tracking-[0.3em] uppercase">Our Heritage</span>
+                    <h2 class="text-5xl font-extrabold tracking-tighter mt-4 mb-8 text-gray-900">
+                        A Decade of <br/>Engineering Mastery
+                    </h2>
+                    
+                    <div class="space-y-6 text-gray-600 leading-relaxed">
+                        <p>
+                            With over <strong>ten years of industry experience</strong>, the ENWE Group has evolved from a specialized finishing firm into a dual-powerhouse of construction and manufacturing. Comprising <strong>Enwe Construction Company</strong> and <strong>ENWE Paint Ltd</strong>, we bridge the gap between structural integrity and aesthetic perfection.
+                        </p>
+                        <p>
+                            Our impact is felt across the region’s skyline, having delivered high-stakes engineering projects and premium decor solutions for elite residential and commercial clients. We don't just build; we define the standards of modern African living.
+                        </p>
+                        
+                        <div class="inline-flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-2xl mt-4">
+                            <div class="w-10 h-10 bg-[#D62128]/10 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-[#D62128]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-900 uppercase tracking-tight">Verified Operations</p>
+                                <p class="text-[13px] text-gray-500">Registered under the National Business Co-operative</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between h-48">
+                        <span class="text-4xl font-bold text-gray-900">10+</span>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Years</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Industry Leadership</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-900 p-8 rounded-3xl shadow-xl flex flex-col justify-between h-48 text-white">
+                        <span class="text-4xl font-bold text-[#D62128]">200+</span>
+                        <div>
+                            <h4 class="font-bold">Impacts</h4>
+                            <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Projects Completed</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between h-48">
+                        <span class="text-4xl font-bold text-gray-900">100%</span>
+                        <div>
+                            <h4 class="font-bold text-gray-900">In-House</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest mt-1">Enwe Paint Supply</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 p-8 rounded-3xl flex flex-col justify-between h-48">
+                        <div class="w-10 h-10 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                            <div class="w-2 h-2 bg-[#D62128] rounded-full animate-pulse"></div>
+                        </div>
+                        <p class="text-sm font-medium text-gray-800 leading-tight">
+                            Transforming spaces with precision and structural grace.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
+                <div class="max-w-xl">
+                    <span class="text-[#D62128] text-xs font-bold tracking-[0.3em] uppercase">Core Capabilities</span>
+                    <h2 class="text-5xl font-extrabold tracking-tighter mt-4 text-gray-900">Expert Solutions</h2>
+                </div>
+                <p class="text-gray-600 text-sm max-w-xs font-light leading-relaxed">
+                    From structural engineering to the final coat of premium ENWE paint, we deliver excellence at every layer.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                
+                <div class="glass-panel rounded-2xl p-10 service-card border-b-4 border-transparent hover:border-gray-900 transition-all">
+                    <div class="w-12 h-12 border border-gray-200 rounded-xl flex items-center justify-center mb-10">
+                        <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Engineering & Management</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                        Professional engineering services integrated with strategic real estate management to protect and grow your property value.
+                    </p>
+                    <ul class="space-y-3 text-[11px] font-semibold text-gray-600 uppercase tracking-wider">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span> Civil Engineering</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span> Estate Management</li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-10 service-card border-t-4 border-[#D62128] shadow-xl">
+                    <div class="w-12 h-12 border border-gray-200 rounded-xl flex items-center justify-center mb-10">
+                        <svg class="w-6 h-6 text-[#D62128]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Advanced Finishing</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                        Specialized POP ceiling installation, professional screeding, and premium stucco applications for luxury interiors and exteriors.
+                    </p>
+                    <ul class="space-y-3 text-[11px] font-semibold text-gray-600 uppercase tracking-wider">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#D62128] rounded-full"></span> POP & Screeding</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-[#D62128] rounded-full"></span> Exterior Decor</li>
+                    </ul>
+                </div>
+
+                <div class="glass-panel rounded-2xl p-10 service-card border-b-4 border-transparent hover:border-[#D62128] transition-all">
+                    <div class="w-12 h-12 border border-gray-200 rounded-xl flex items-center justify-center mb-10">
+                        <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">ENWE Paint Supply</h3>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                        Direct supply of high-quality ENWE paints. We provide the pigments and coatings that define professional-grade painting.
+                    </p>
+                    <ul class="space-y-3 text-[11px] font-semibold text-gray-600 uppercase tracking-wider">
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span> Quality Assurance</li>
+                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-gray-900 rounded-full"></span> Bulk Supply</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="py-32 bg-white overflow-hidden">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <span class="text-[#3B82F6] text-xs font-bold tracking-[0.3em] uppercase">Showcase</span>
+                    <h2 class="text-5xl font-extrabold tracking-tighter mt-4 text-gray-900">Featured Works</h2>
+                </div>
+                <a href="#" class="md:block text-[11px] font-bold tracking-widest uppercase hover:text-[#3B82F6] transition-colors">All Projects →</a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group relative aspect-square overflow-hidden rounded-2xl portfolio-card">
+                    <img src="img/works1.jpg" alt="Villa" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent p-8 flex flex-col justify-end">
+                        <!--span class="text-[10px] font-bold text-[#3B82F6] tracking-[0.2em] uppercase mb-2">Lusaka • 2025</span-->
+                        <h4 class="text-xl font-bold text-white">Private Villa Estate</h4>
+                    </div>
+                </div>
+                <div class="group relative aspect-square overflow-hidden rounded-2xl portfolio-card">
+                    <img src="img/works2.jpg" alt="Estate" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent p-8 flex flex-col justify-end">
+                        <!--span class="text-[10px] font-bold text-[#D62128] tracking-[0.2em] uppercase mb-2">Victoria Falls • 2024</span-->
+                        <h4 class="text-xl font-bold text-white">Clifftop Hospitality</h4>
+                    </div>
+                </div>
+                <div class="group relative aspect-square overflow-hidden rounded-2xl portfolio-card">
+                    <img src="img/works3.jpg" alt="HQ" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent p-8 flex flex-col justify-end">
+                        <!--span class="text-[10px] font-bold text-white tracking-[0.2em] uppercase mb-2">Ndola • 2025</span-->
+                        <h4 class="text-xl font-bold text-white">Corporate HQ Suites</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quote" class="py-32 bg-white">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-16">
+                <span class="text-[#D62128] text-xs font-bold tracking-[0.4em] uppercase">Inquiry</span>
+                <h2 class="text-5xl font-extrabold tracking-tighter mt-4 text-gray-900">Project Consultation</h2>
+                <p class="text-gray-600 mt-4 font-light">Our engineering team provides detailed proposals within 24 hours.</p>
+            </div>
+
+            <div class="glass-panel p-10 md:p-16 rounded-2xl">
+                <form action="#" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-bold tracking-widest text-gray-600 uppercase">Full Name</label>
+                        <input type="text" placeholder="e.g. John Doe" class="input-field rounded-xl px-6 py-4 text-sm">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="text-[10px] font-bold tracking-widest text-gray-600 uppercase">Email Address</label>
+                        <input type="email" placeholder="name@company.com" class="input-field rounded-xl px-6 py-4 text-sm">
+                    </div>
+                    <div class="md:col-span-2 flex flex-col gap-2">
+                        <label class="text-[10px] font-bold tracking-widest text-gray-600 uppercase">Project Brief</label>
+                        <textarea rows="5" placeholder="Describe your vision and timeline..." class="input-field rounded-xl px-6 py-4 text-sm resize-none"></textarea>
+                    </div>
+                    <div class="md:col-span-2 pt-4">
+                        <button type="submit" class="w-full bg-[#D62128] text-white hover:bg-black hover:text-white py-6 rounded-xl font-bold text-xs uppercase tracking-[0.2em] transition-all duration-500">
+                            Submit Consultation Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+        <a href="https://wa.me/2608108005449" 
+        target="_blank"
+        class="fixed bottom-8 right-8 z-50 flex items-center group transition-all duration-500"
+        aria-label="Chat with us on WhatsApp">
+            
+            <span class="mr-3 py-2 px-4 bg-white/80 backdrop-blur-md border border-gray-100 rounded-full text-[11px] font-bold tracking-widest uppercase text-gray-900 shadow-xl opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
+                Consult an Expert
+            </span>
+
+            <div class="relative w-14 h-14 bg-gray-900 rounded-full flex items-center justify-center shadow-2xl group-hover:bg-[#D62128] transition-colors duration-500">
+                <div class="absolute inset-0 rounded-full bg-gray-900 group-hover:bg-[#D62128] animate-ping opacity-20"></div>
+                
+                <svg class="w-6 h-6 text-white relative z-10" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.631 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+
+                <span class="absolute top-0 right-0 w-3 h-3 bg-[#D62128] border-2 border-gray-900 rounded-full"></span>
+            </div>
+        </a>
+
+    <footer class="bg-[#0F0F0F] text-white py-20 border-t border-white/10">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-12 gap-12 mb-20">
+            
+            <!-- Logo & Description -->
+            <div class="md:col-span-5">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-1.5 rounded-xl">
+                        <img src="img/logo_EP.png" alt="Enwe" class="h-9 w-9 object-contain">
+                    </div>
+                    <div>
+                        <span class="font-bold tracking-tighter text-2xl uppercase text-white">Enwe</span>
+                        <span class="block text-[#D62128] font-extrabold text-xs tracking-[2px] -mt-1">PAINT • ENGINEERING</span>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-[15px] max-w-md leading-relaxed font-light">
+                    Crafting Africa’s most exclusive spaces since 2018. 
+                    Engineered for permanence, designed for luxury.
+                </p>
+            </div>
+
+            <!-- Navigation -->
+            <div class="md:col-span-3">
+                <h5 class="font-bold text-xs tracking-[1px] uppercase mb-6 text-gray-400">Navigation</h5>
+                <ul class="space-y-4 text-[15px]">
+                    <li><a href="#about" class="hover:text-[#D62128] transition-colors">About Us</a></li>
+                    <li><a href="#services" class="hover:text-[#D62128] transition-colors">Services</a></li>
+                    <li><a href="#portfolio" class="hover:text-[#D62128] transition-colors">Portfolio</a></li>
+                    <li><a href="#quote" class="hover:text-[#D62128] transition-colors">Get a Quote</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="md:col-span-4">
+                <h5 class="font-bold text-xs tracking-[1px] uppercase mb-6 text-gray-400">Get In Touch</h5>
+                
+                <div class="space-y-8">
+                    <!-- Phone -->
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest font-semibold text-gray-500 block mb-2">CALL US/WHATSAPP</span>
+                        <div class="space-y-1.5">
+                            <a href="tel:09078364480" 
+                               class="block text-lg font-light hover:text-[#D62128] transition-colors">
+                                0907 836 4480
+                            </a>
+                            <a href="tel:08108005449" 
+                               class="block text-lg font-light hover:text-[#D62128] transition-colors">
+                                0810 800 5449
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest font-semibold text-gray-500 block mb-2">EMAIL</span>
+                        <a href="mailto:enwepopconstructioncompany@gmail.com" 
+                           class="text-[15px] text-gray-300 hover:text-white transition-colors break-all">
+                            enwepopconstructioncompany@gmail.com
+                        </a>
+                    </div>
+
+                    <!-- Location -->
+                    <div>
+                        <span class="text-[10px] uppercase tracking-widest font-semibold text-gray-500 block mb-2">HEADQUARTERS</span>
+                        <p class="text-[15px] text-gray-300">22  hilltop road uguwuagbaja  abakaliki Ebonyi state</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="pt-10 border-t border-white/10 text-center">
+            <span class="text-xs text-gray-500 font-medium tracking-widest">
+                © 2026 Enwe Construction Company | Enwe Paint Ltd. 
+                <span class="text-gray-600">• Engineered Excellence</span>
+            </span>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('navHandler', () => ({
+                mobileMenuOpen: false,
+                scrolled: false,
+                init() {
+                    window.addEventListener('scroll', () => {
+                        this.scrolled = window.scrollY > 50;
+                    });
+                },
+                toggleMenu() {
+                    this.mobileMenuOpen = !this.mobileMenuOpen;
+                    document.body.style.overflow = this.mobileMenuOpen ? 'hidden' : 'auto';
+                },
+                closeMenu() {
+                    this.mobileMenuOpen = false;
+                    document.body.style.overflow = 'auto';
+                }
+            }));
+            Alpine.data('heroHandler', () => ({
+                loaded: false,
+                init() {
+                    setTimeout(() => { this.loaded = true; }, 400);
+                }
+            }));
+        });
+    </script>
+</body>
+</html>
