@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Impact Portfolio | ENWE Construction & Paint Ltd</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    
+    .glass-nav { 
+      background: rgba(255, 255, 255, 0.85); 
+      backdrop-filter: blur(20px); 
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04); 
+    }
+
+    /* Standard Card Transition */
+    .project-card { 
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease; 
+    }
+
+    /* Active Filter State */
+    .nav-filter.active { 
+      color: #d62128; 
+      opacity: 1 !important; 
+    }
+    .nav-filter.active::after {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: #d62128;
+      margin-top: 4px;
+    }
+
+    /* Effect: Paint Wipe (Finishing) */
+    .paint-wipe {
+      transform: translateY(100%);
+      transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+    .group:hover .paint-wipe { transform: translateY(0); }
+
+    /* Effect: Blueprint (Engineering) */
+    .blueprint-overlay {
+      background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+      background-size: 25px 25px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .group:hover .blueprint-overlay { opacity: 1; }
+  </style>
+</head>
+<body class="bg-[#fafafa] text-gray-950 antialiased">
+
+  <nav class="fixed w-full z-50 glass-nav">
+    <div class="container mx-auto px-6 py-5 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <img src="img/logo_EP.png" alt="Enwe" class="h-10 w-10 object-contain rounded-lg transition-transform group-hover:scale-105" />
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-tighter leading-none">ENWE<span class="text-[#D62128]">.</span></span>
+          <span class="text-[11px] uppercase tracking-[0.3em] font-bold text-[#3B82F6]">Pop Construction & Paint</span>
+        </div>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8">
+        <button onclick="filterProjects('all', this)" class="nav-filter active text-[11px] font-bold uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-all">All Works</button>
+        <button onclick="filterProjects('finishing', this)" class="nav-filter text-[11px] font-bold uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-all">Finishing</button>
+        <button onclick="filterProjects('engineering', this)" class="nav-filter text-[11px] font-bold uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-all">Engineering</button>
+        <button onclick="filterProjects('paint', this)" class="nav-filter text-[11px] font-bold uppercase tracking-[0.2em] opacity-40 hover:opacity-100 transition-all">Paint Supply</button>
+        
+        <div class="h-4 w-[1px] bg-gray-200 mx-2"></div>
+        <a href="index.html#quote" class="bg-gray-950 text-white px-8 py-3 rounded-lg text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#D62128] transition-all transform hover:-translate-y-1 shadow-lg shadow-gray-200">Start Project</a>
+      </div>
+
+      <button id="menu-btn" class="lg:hidden flex items-center gap-3 p-2" aria-label="Menu">
+        <span class="text-[10px] font-extrabold uppercase tracking-widest text-gray-400">Filter</span>
+        <div class="w-5 h-3.5 flex flex-col justify-between">
+          <span class="w-full h-[2px] bg-gray-950 rounded-full"></span>
+          <span class="w-3/4 h-[2px] bg-gray-950 rounded-full"></span>
+        </div>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-100 p-8 space-y-6 text-center shadow-xl">
+      <button onclick="filterProjects('all', this); toggleMenu()" class="nav-filter active block w-full text-xs font-bold uppercase tracking-widest">All Works</button>
+      <button onclick="filterProjects('finishing', this); toggleMenu()" class="nav-filter block w-full text-xs font-bold uppercase tracking-widest text-gray-400">Finishing</button>
+      <button onclick="filterProjects('engineering', this); toggleMenu()" class="nav-filter block w-full text-xs font-bold uppercase tracking-widest text-gray-400">Engineering</button>
+      <button onclick="filterProjects('paint', this); toggleMenu()" class="nav-filter block w-full text-xs font-bold uppercase tracking-widest text-gray-400">Paint Supply</button>
+      <hr class="border-gray-50">
+      <a href="index.html" class="block text-[10px] font-bold uppercase tracking-widest text-gray-400">Exit to Home</a>
+    </div>
+  </nav>
+
+  <header class="pt-48 pb-16 bg-white">
+    <div class="container mx-auto px-6">
+      <div class="flex items-center gap-4 mb-6">
+        <span class="h-[1px] w-12 bg-[#D62128]"></span>
+        <span class="text-[#D62128] text-[11px] font-bold tracking-[0.6em] uppercase">Archive of Excellence</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter text-gray-950 leading-[1.05]">
+        Profound Works. <br /><span class="text-[#3B82F6]">A Decade of Impact.</span>
+      </h1>
+    </div>
+  </header>
+
+  <main class="container mx-auto px-6 pb-32">
+    <div id="project-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20">
+
+      <!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/works1.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior1.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/Paint1.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/interior2.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior2.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/paint3.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/interior7.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior8.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/paint6.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/interior3.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior6.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/paint5.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/interior11.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior12.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/paint4.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--finishing-->
+      <div class="project-card group" data-category="finishing">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-100 shadow-sm transition-all duration-700 group-hover:shadow-2xl group-hover:shadow-red-900/10">
+          <img src="img/interior1.jpg" alt="Presidential Suite" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
+          
+          <div class="paint-wipe absolute inset-0 bg-[#D62128]/25 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/90">Refinement Profile</span>
+              <p class="text-xs leading-relaxed font-dark">Custom screeding with marble-dust integration, delivering a seamless "Quiet Luxury" aesthetic for high-profile interiors.</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-white text-gray-950 px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-gray-950 hover:text-white transition-all shadow-xl">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              View Full Experience
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Finishing</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-700 uppercase tracking-[0.3em]">Residential</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Presidential Suite POP Transformation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Scale</h4>
+              <p class="text-[11px] font-bold text-gray-700">1,200 sq.m</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Status</h4>
+              <p class="text-[11px] font-bold text-gray-700">Completed 2025</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+              <!--engineering-->
+
+      <div class="project-card group" data-category="engineering">
+        <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-gray-950 shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+          <img src="img/exterior3.jpg" alt="Structural Frame" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110 opacity-80" />
+          
+          <div class="blueprint-overlay absolute inset-0 bg-gray-950/50 p-10 flex flex-col justify-between text-white z-10">
+            <div class="space-y-4">
+              <span class="text-[9px] font-bold uppercase tracking-[0.4em] border-b border-white/20 pb-3 block text-white/70">Structural Blueprint</span>
+              <p class="text-xs leading-relaxed font-light font-mono text-gray-400">ST_LOAD: 450kN/m2<br>MAT: Grade 35 Concrete<br>LOC: Central Lusaka</p>
+            </div>
+            <button onclick="openLightbox(this)" class="self-start flex items-center gap-3 bg-[#D62128] text-white px-7 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-white hover:text-gray-950 transition-all shadow-xl">
+              Inspect Structure
+            </button>
+          </div>
+        </div>
+        <div class="px-4">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Engineering</span>
+            <span class="h-1 w-1 bg-gray-900 rounded-full"></span>
+            <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Infrastructure</span>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">Industrial Hub <br>Foundation</h3>
+          <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-500">
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Standard</h4>
+              <p class="text-[11px] font-bold text-gray-700">ISO 9001:2015</p>
+            </div>
+            <div>
+              <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Sector</h4>
+              <p class="text-[11px] font-bold text-gray-700">Commercial</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!--paint-->
+
+      <div class="project-card group" data-category="paint">
+  <div class="relative aspect-[3/4] overflow-hidden rounded-xl mb-8 bg-white shadow-sm transition-all duration-700 group-hover:shadow-2xl">
+    <img src="img/paint2.jpg" alt="Premium Paint Supply" class="gallery-thumb w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+    
+    <div class="absolute inset-0 bg-[#3B82F6]/40 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out p-10 flex flex-col justify-between z-10">
+      <div class="space-y-6">
+        <div class="flex justify-between items-start">
+          <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-white">Material Specification</span>
+          <span class="text-[9px] font-mono text-gray-700">BATCH: #EP-2026-X</span>
+        </div>
+        
+        <div class="space-y-4">
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Coverage</span>
+            <span class="text-[10px] font-bold text-gray-900">12-14 m²/L</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">Viscosity</span>
+            <span class="text-[10px] font-bold text-gray-900">110-115 KU</span>
+          </div>
+          <div class="flex justify-between border-b border-gray-100 pb-2">
+            <span class="text-[10px] font-bold text-gray-900 uppercase">VOC Level</span>
+            <span class="text-[10px] font-bold text-gray-900">&lt; 30g/L (Eco)</span>
+          </div>
+        </div>
+        
+        <p class="text-[11px] leading-relaxed text-gray-100 italic">
+          Weather-shield technology optimized for Sub-Saharan UV exposure and humidity.
+        </p>
+      </div>
+
+      <button onclick="openLightbox(this)" class="self-center flex items-center gap-3 bg-gray-950 text-white px-8 py-3.5 rounded-lg text-[9px] font-bold uppercase tracking-widest hover:bg-[#D62128] transition-all shadow-lg w-full justify-center">
+        View Product Finish
+      </button>
+    </div>
+  </div>
+
+  <div class="px-4">
+    <div class="flex items-center gap-3 mb-4">
+      <span class="text-[9px] font-bold text-[#D62128] uppercase tracking-[0.3em]">Paint Supply</span>
+      <span class="h-1 w-1 bg-gray-950 rounded-full"></span>
+      <span class="text-[9px] font-bold text-gray-900 uppercase tracking-[0.3em]">Premium Grade</span>
+    </div>
+    
+    <h3 class="text-2xl font-bold text-gray-950 tracking-tight leading-tight mb-6">
+      ENWE Weather-Shield <br>Matte Series
+    </h3>
+    
+    <div class="grid grid-cols-2 gap-6 pt-6 border-t border-gray-700">
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Finish</h4>
+        <p class="text-[11px] font-bold text-gray-700">Ultra-Matte</p>
+      </div>
+      <div>
+        <h4 class="text-[8px] font-bold text-gray-400 uppercase tracking-widest mb-1">Durability</h4>
+        <p class="text-[11px] font-bold text-gray-700">15+ Years</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </main>
+
+  <footer class="bg-[#0F0F0F] text-white py-24">
+    <div class="container mx-auto px-6 text-center">
+      <img src="img/logo_EP.png" alt="Enwe" class="h-14 w-14 mx-auto mb-10 opacity-100 grayscale hover:grayscale-0 transition-all cursor-pointer" />
+      <p class="text-[10px] uppercase tracking-[0.6em] text-gray-500 mb-6">Building the Future Since 2018</p>
+      <h2 class="text-3xl md:text-5xl font-bold tracking-tighter mb-12 max-w-3xl mx-auto leading-tight">National Business Co-operative <br /><span class="text-gray-700 underline decoration-[#D62128]">Accredited Partner</span></h2>
+      <div class="w-20 h-[1.5px] bg-[#D62128] mx-auto mb-12"></div>
+      <a href="mailto:enwepopconstructioncompany@gmail.com" class="text-xs font-bold uppercase tracking-[0.3em] text-white/60 hover:text-[#D62128] transition-all border-b border-white/10 pb-2">Email for Further Inquiries</a>
+      <div class="pt-10 text-center">
+            <span class="text-xs text-gray-500 font-medium tracking-widest">
+                © 2026 Enwe Pop Construction Company | Enwe Paint Ltd.
+                <span class="text-gray-600">• Engineered Excellence</span>
+            </span>
+        </div>
+    </div>
+  </footer>
+
+    <div id="lightbox" class="fixed inset-0 z-[100] bg-gray-950 backdrop-blur-lg hidden opacity-0 transition-opacity duration-500 flex flex-col items-center justify-center p-4 md:p-10" role="dialog" aria-modal="true">
+            
+            <div class="relative w-full h-full flex flex-col items-center justify-center">
+            
+            <button onclick="prevImage()" class="absolute left-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-[#D62128] transition-all p-6 hidden md:block" aria-label="Previous">
+                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M15 19l-7-7 7-7" /></svg>
+            </button>
+
+            <button onclick="nextImage()" class="absolute right-0 top-1/2 -translate-y-1/2 text-white/50 hover:text-[#D62128] transition-all p-6 hidden md:block" aria-label="Next">
+                <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M9 5l7 7-7 7" /></svg>
+            </button>
+
+            <div class="max-w-5xl w-full h-[55vh] md:h-[65vh] flex items-center justify-center">
+                <img id="lightbox-img" src="" alt="Project Preview" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl transition-all duration-700 ease-out" />
+            </div>
+
+            <div class="mt-8 md:mt-12 text-center px-4">
+                <h4 id="lightbox-title" class="text-2xl md:text-4xl font-extrabold text-white tracking-tighter mb-2"></h4>
+                <p id="lightbox-category" class="text-[#D62128] text-[12px] font-bold uppercase tracking-[0.5em] mb-8 md:mb-12"></p>
+                
+                <div class="flex items-center justify-center gap-10 md:hidden">
+                <button onclick="prevImage()" class="text-white/50 text-[10px] font-bold uppercase tracking-widest border border-white px-6 py-2.5 rounded-xl active:bg-white/10">Prev</button>
+                <button onclick="nextImage()" class="text-white/50 text-[10px] font-bold uppercase tracking-widest border border-white px-6 py-2.5 rounded-xl active:bg-white/10">Next</button>
+                </div>
+            </div>
+            </div>
+
+            <button 
+            onclick="closeLightbox()" 
+            class="absolute top-6 right-6 md:top-10 md:right-10 z-[110] text-white/50 hover:text-white transition-all transform hover:rotate-90 p-4" aria-label="Close">
+            <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+            </button>
+        </div>
+
+  <script>
+    // Component: UI Utilities
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const toggleMenu = () => {
+    const isHidden = mobileMenu.classList.toggle('hidden');
+    menuBtn.setAttribute('aria-expanded', !isHidden);
+};
+menuBtn.addEventListener('click', toggleMenu);
+
+// Component: Project Filter Engine
+function filterProjects(category, btn) {
+    const cards = document.querySelectorAll('.project-card');
+    const btns = document.querySelectorAll('.nav-filter');
+
+    btns.forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('opacity-40');
+    });
+    btn.classList.add('active');
+    btn.classList.remove('opacity-40');
+
+    cards.forEach(card => {
+        const isMatch = category === 'all' || card.getAttribute('data-category') === category;
+        if (isMatch) {
+            card.style.display = 'block';
+            requestAnimationFrame(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(40px) scale(0.95)';
+            setTimeout(() => { card.style.display = 'none'; }, 600);
+        }
+    });
+}
+
+// Component: Cinematic Lightbox Engine
+let currentIndex = 0;
+let images = [];
+
+// NEW: Rebuilds the gallery list based ONLY on visible cards
+const syncVisibleGallery = () => {
+    images = Array.from(document.querySelectorAll('.project-card'))
+        .filter(card => card.style.display !== 'none') // Only take what the user sees
+        .map(card => {
+            const img = card.querySelector('.gallery-thumb');
+            return {
+                src: img.src,
+                title: card.querySelector('h3').textContent,
+                category: card.getAttribute('data-category').toUpperCase()
+            };
+        });
+};
+
+const updateLightbox = () => {
+    // Safety check: If for some reason images is empty, abort
+    if (!images[currentIndex]) return;
+
+    const { src, title, category } = images[currentIndex];
+    const imgEl = document.getElementById('lightbox-img');
+    
+    imgEl.style.opacity = '0';
+    imgEl.style.transform = 'scale(0.95) translateY(20px)';
+    
+    setTimeout(() => {
+        imgEl.src = src;
+        document.getElementById('lightbox-title').textContent = title;
+        document.getElementById('lightbox-category').textContent = category;
+        imgEl.style.opacity = '1';
+        imgEl.style.transform = 'scale(1) translateY(0)';
+    }, 250);
+};
+
+window.openLightbox = (button) => {
+    // 1. Sync the gallery to the current filter state
+    syncVisibleGallery();
+
+    // 2. Find the index of the clicked image in our new filtered list
+    const clickedSrc = button.closest('.project-card').querySelector('.gallery-thumb').src;
+    currentIndex = images.findIndex(img => img.src === clickedSrc);
+
+    // 3. Fallback if index isn't found (though it should be)
+    if (currentIndex === -1) currentIndex = 0;
+
+    updateLightbox();
+    
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('hidden');
+    setTimeout(() => lb.classList.remove('opacity-0'), 50);
+    document.body.style.overflow = 'hidden';
+};
+
+window.closeLightbox = () => {
+    const lb = document.getElementById('lightbox');
+    lb.classList.add('opacity-0');
+    setTimeout(() => { lb.classList.add('hidden'); }, 500);
+    document.body.style.overflow = 'auto';
+};
+
+window.nextImage = () => { 
+    if (images.length === 0) return;
+    currentIndex = (currentIndex + 1) % images.length; 
+    updateLightbox(); 
+};
+
+window.prevImage = () => { 
+    if (images.length === 0) return;
+    currentIndex = (currentIndex - 1 + images.length) % images.length; 
+    updateLightbox(); 
+};
+
+// Keyboard Support
+document.addEventListener('keydown', (e) => {
+    if (document.getElementById('lightbox').classList.contains('hidden')) return;
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'Escape') closeLightbox();
+});
+
+    document.addEventListener('DOMContentLoaded', initGallery);
+  </script>
+</body>
+</html>
